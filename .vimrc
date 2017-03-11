@@ -1,13 +1,13 @@
 set nocompatible
 set t_Co=256
-let g:zenburn_high_Contrast = 0
-"colorscheme xoria256
+"let g:zenburn_high_Contrast = 0
+colorscheme xoria256
 "colorscheme xoria256 " zenburn xoria256
 
-let g:tomorrow_termcolors = 256
-let g:tomorrow_termtrans = 0 " set to 1 if using transparant background
-let g:tomorrow_diffmode = "high"
-colorscheme tomorrow
+"let g:tomorrow_termcolors = 256
+"let g:tomorrow_termtrans = 0 " set to 1 if using transparant background
+"let g:tomorrow_diffmode = "high"
+"colorscheme tomorrow
 
 set autoindent          " always set autoindenting on
 set smartindent
@@ -106,7 +106,7 @@ nnoremap k gk
 
 " Unite
 let g:unite_source_history_yank_enable = 1
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
+"call unite#filters#matcher_default#use(['matcher_fuzzy'])
 nnoremap <leader>t :<C-u>Unite -no-split -buffer-name=files   -start-insert file_rec/async:!<cr>
 nnoremap <leader>f :<C-u>Unite -no-split -buffer-name=files   -start-insert file<cr>
 nnoremap <leader>r :<C-u>Unite -no-split -buffer-name=mru     -start-insert file_mru<cr>
