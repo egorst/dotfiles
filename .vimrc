@@ -1,15 +1,8 @@
 set nocompatible
 set t_Co=256
-"let g:zenburn_high_Contrast = 0
 colorscheme xoria256
-"colorscheme xoria256 " zenburn xoria256
 
-"let g:tomorrow_termcolors = 256
-"let g:tomorrow_termtrans = 0 " set to 1 if using transparant background
-"let g:tomorrow_diffmode = "high"
-"colorscheme tomorrow
-
-set autoindent          " always set autoindenting on
+set autoindent
 set smartindent
 set expandtab
 set smarttab
@@ -21,9 +14,6 @@ set laststatus=2
 execute pathogen#infect()
 
 syntax on
-set hlsearch
-set smartcase
-set showtabline=2
 filetype on
 filetype plugin on
 filetype indent on
@@ -31,11 +21,6 @@ filetype indent on
 set langmenu=en_US.UTF-8
 "language message en
 set langmap=ёйцукенгшщзхъфывапролджэячсмитьбюЙЦУКЕHГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ;`qwertyuiop[]asdfghjkl\\;'zxcvbnm\\,.QWERTYUIOP{}ASDFGHJKL:\\"ZXCVBNM<>
-
-"set number
-
-set incsearch
-nmap <silent> ,/ :let @/=""<CR> " clear highlighted search
 
 map <C-Up> <C-Y><Up>
 map <C-Down> <C-E><Down>
@@ -60,16 +45,15 @@ nnoremap ; :|xnoremap ; :
 inoremap kj <ESC>
 inoremap jj <ESC>
 
-
 set scrolloff=2
 set showmode
 set showcmd
 set hidden
 set wildmenu
+set showtabline=1
 set wildmode=list:longest
 set visualbell
 set backspace=indent,eol,start
-"set relativenumber
 set undodir="/tmp/vimdir"
 set undofile
 
