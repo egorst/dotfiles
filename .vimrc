@@ -78,6 +78,16 @@ nnoremap <leader>p :set paste! paste?<cr>
 nnoremap <leader>c :tabnew <left><right>
 nnoremap <leader>q :tabclose<cr>
 
+nnoremap <leader>1 1gt
+nnoremap <leader>2 2gt
+nnoremap <leader>3 3gt
+nnoremap <leader>4 4gt
+nnoremap <leader>5 5gt
+nnoremap <leader>6 6gt
+nnoremap <leader>7 7gt
+nnoremap <leader>8 8gt
+nnoremap <leader>9 9gt
+
 set wrap
 
 " airline
@@ -92,6 +102,7 @@ let g:go_fmt_command = "goimports"
 let g:go_fmt_fail_silently = 1
 autocmd FileType go nmap <leader>b  <Plug>(go-build)
 autocmd FileType go nmap <leader>r  <Plug>(go-run)
+autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
 
 " set listcar but not list (set list manually)
 set listchars=tab:▸\ ,eol:¬
