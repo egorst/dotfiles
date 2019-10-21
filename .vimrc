@@ -1,9 +1,18 @@
 set nocompatible
 language C
+set enc=utf-8
 set t_Co=256
 colorscheme xoria256
 
 execute pathogen#infect()
+
+if has('gui_running')
+set guioptions -=e
+set guioptions -=m
+set guioptions -=T
+set guifont=DejaVu\ Sans\ Mono:h10
+autocmd GUIEnter * simalt ~x
+endif
 
 set autowrite
 set autoindent
@@ -51,7 +60,7 @@ set showmode
 set showcmd
 set hidden
 set wildmenu
-set showtabline=1
+set showtabline=2
 set wildmode=list:longest
 set visualbell
 set backspace=indent,eol,start
@@ -73,29 +82,33 @@ vnoremap <tab> %
 
 nnoremap <leader>R :set relativenumber!<cr>
 nnoremap <leader>N :set number!<cr>
-nnoremap <leader>p :set paste! paste?<cr>
+nnoremap <leader>P :set paste! paste?<cr>
 
-nnoremap <leader>c :tabnew <left><right>
-nnoremap <leader>q :tabclose<cr>
+nnoremap <C-N> :bnext<cr>
+nnoremap <C-P> :bprev<cr>
 
-nnoremap <leader>1 1gt
-nnoremap <leader>2 2gt
-nnoremap <leader>3 3gt
-nnoremap <leader>4 4gt
-nnoremap <leader>5 5gt
-nnoremap <leader>6 6gt
-nnoremap <leader>7 7gt
-nnoremap <leader>8 8gt
-nnoremap <leader>9 9gt
+nmap <Leader>1 <Plug>lightline#bufferline#go(1)
+nmap <Leader>2 <Plug>lightline#bufferline#go(2)
+nmap <Leader>3 <Plug>lightline#bufferline#go(3)
+nmap <Leader>4 <Plug>lightline#bufferline#go(4)
+nmap <Leader>5 <Plug>lightline#bufferline#go(5)
+nmap <Leader>6 <Plug>lightline#bufferline#go(6)
+nmap <Leader>7 <Plug>lightline#bufferline#go(7)
+nmap <Leader>8 <Plug>lightline#bufferline#go(8)
+nmap <Leader>9 <Plug>lightline#bufferline#go(9)
+nmap <Leader>0 <Plug>lightline#bufferline#go(10)
 
 set wrap
 
-" airline
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_buffers = 0
-let g:airline#extensions#tabline#tab_nr_type = 1
-let g:airline_theme='angr'
+" lightline-bufferline
+let g:lightline#bufferline#show_number  = 1
+let g:lightline#bufferline#shorten_path = 0
+let g:lightline#bufferline#unnamed      = '[No Name]'
+" minimal lightline
+let g:lightline                  = {}
+let g:lightline.tabline          = {'left': [['buffers']], 'right': [['close']]}
+let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
+let g:lightline.component_type   = {'buffers': 'tabsel'}
 
 " vim-go
 let g:go_fmt_command = "goimports"
@@ -116,4 +129,3 @@ autocmd BufReadPost *
   \ if line("'\"") > 1 && line("'\"") <= line("$") |
   \  exe "normal! g`\"" |
   \ endif
-
