@@ -42,10 +42,10 @@ map <PageDown> <C-D><C-D>
 imap <PageUp> <C-O><C-U><C-O><C-U>
 imap <PageDown> <C-O><C-D><C-O><C-D>
 
-inoremap <C-h> <Left>|cnoremap <C-h> <Left>|
-inoremap <C-k> <Up>|cnoremap <C-k> <Up>|
-inoremap <C-j> <Down>|cnoremap <C-j> <Down>|
-inoremap <C-l> <Right>|cnoremap <C-l> <Right>|
+"inoremap <C-h> <Left>|cnoremap <C-h> <Left>|
+"inoremap <C-k> <Up>|cnoremap <C-k> <Up>|
+"inoremap <C-j> <Down>|cnoremap <C-j> <Down>|
+"inoremap <C-l> <Right>|cnoremap <C-l> <Right>|
 
 set ttimeoutlen=50
 inoremap <C-c> <Esc>
@@ -139,7 +139,11 @@ if has('conceal')
 endif
 
 " defx
-source $HOME/.config/nvim/defx.vimrc
+if has("win32")
+  source $HOME/AppData/Local/nvim/defx.vimrc
+else
+  source $HOME/.config/nvim/defx.nvim
+endif
 
 nnoremap <C-g> :Rg<Cr>
 nnoremap <C-p> :Files<Cr>
