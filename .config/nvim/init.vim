@@ -8,10 +8,12 @@ call plug#begin()
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'tpope/vim-unimpaired'
-Plug 'Shougo/deoplete.nvim'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-vinegar'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
-Plug 'Shougo/defx.nvim'
 Plug 'lervag/vimtex'
 Plug 'fatih/vim-go'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -28,8 +30,6 @@ set shiftwidth=4
 set number
 set relativenumber
 
-set laststatus=2
-
 filetype on
 filetype plugin on
 filetype indent on
@@ -42,10 +42,10 @@ map <PageDown> <C-D><C-D>
 imap <PageUp> <C-O><C-U><C-O><C-U>
 imap <PageDown> <C-O><C-D><C-O><C-D>
 
-"inoremap <C-h> <Left>|cnoremap <C-h> <Left>|
-"inoremap <C-k> <Up>|cnoremap <C-k> <Up>|
-"inoremap <C-j> <Down>|cnoremap <C-j> <Down>|
-"inoremap <C-l> <Right>|cnoremap <C-l> <Right>|
+inoremap <C-h> <Left>|cnoremap <C-h> <Left>|
+inoremap <C-k> <Up>|cnoremap <C-k> <Up>|
+inoremap <C-j> <Down>|cnoremap <C-j> <Down>|
+inoremap <C-l> <Right>|cnoremap <C-l> <Right>|
 
 set ttimeoutlen=50
 inoremap <C-c> <Esc>
@@ -102,13 +102,24 @@ let g:lightline.component_type   = {'buffers': 'tabsel'}
 let g:lightline#bufferline#show_number  = 1
 let g:lightline#bufferline#shorten_path = 1
 let g:lightline#bufferline#unnamed      = '[No Name]'
+
+nmap <Leader>1 <Plug>lightline#bufferline#go(1)
+nmap <Leader>2 <Plug>lightline#bufferline#go(2)
+nmap <Leader>3 <Plug>lightline#bufferline#go(3)
+nmap <Leader>4 <Plug>lightline#bufferline#go(4)
+nmap <Leader>5 <Plug>lightline#bufferline#go(5)
+nmap <Leader>6 <Plug>lightline#bufferline#go(6)
+nmap <Leader>7 <Plug>lightline#bufferline#go(7)
+nmap <Leader>8 <Plug>lightline#bufferline#go(8)
+nmap <Leader>9 <Plug>lightline#bufferline#go(9)
+nmap <Leader>0 <Plug>lightline#bufferline#go(10)
+
 nnoremap <silent> <M-]> :bnext<CR>
 nnoremap <silent> <M-[> :bprev<CR>
 
 let g:netrw_liststyle = 3
-let g:netrw_banner = 0
-let g:netrw_browse_split = 1
-let g:netrw_winsize = 25
+let g:netrw_fastbrowse = 0
+autocmd FileType netrw setl bufhidden=wipe
 
 " deoplete
 let g:deoplete#enable_at_startup = 1
@@ -133,21 +144,17 @@ imap <expr><TAB>
  \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
  \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
 " For conceal markers.
 if has('conceal')
   set conceallevel=2 concealcursor=niv
 endif
 
-" defx
-if has("win32")
-  source $HOME/AppData/Local/nvim/defx.vimrc
-else
-  source $HOME/.config/nvim/defx.nvim
-endif
-
-nnoremap <C-g> :Rg<Cr>
-nnoremap <C-p> :Files<Cr>
-nnoremap <C-b> :Buffers<Cr>
+nnoremap <leader>p :Files<cr>
+nnoremap <leader>o :Lines<cr>
+nnoremap <leader>g :Rg<cr>
+nnoremap <leader>t :Tags<cr>
+nnoremap <leader>u :Buffers<cr>
 
 " set listcar but not list (set list manually)
 set listchars=tab:▸\ ,eol:¬
