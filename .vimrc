@@ -96,8 +96,8 @@ nnoremap <leader>R :set relativenumber!<cr>
 nnoremap <leader>N :set number!<cr>
 nnoremap <leader>P :set paste! paste?<cr>
 
-nnoremap <M-]> :bnext<cr>
-nnoremap <M-[> :bprev<cr>
+nnoremap <C-w> :bprev<cr>
+nnoremap <C-e> :bnext<cr>
 nmap <Leader>D :bdel<CR>
 
 nmap <Leader>1 <Plug>lightline#bufferline#go(1)
@@ -148,7 +148,8 @@ let g:go_fmt_fail_silently = 1
 let g:go_auto_type_info = 1
 autocmd FileType go nmap <leader>b  <Plug>(go-build)
 autocmd FileType go nmap <leader>r  <Plug>(go-run)
-autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=2 shiftwidth=2
+autocmd FileType go nmap <leader>l  <Plug>(go-lint)
+autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
 if has("patch-8.1.1904")
   set completeopt+=popup
   set completepopup=align:menu,border:off,highlight:Pmenu
