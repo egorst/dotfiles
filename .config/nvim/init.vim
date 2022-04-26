@@ -1,9 +1,10 @@
 " settings for nvim 0.5 and newer
-language C
-set langmenu=C
+"language C
+"set langmenu=C
 set langmap=ёйцукенгшщзхъфывапролджэячсмитьбюЙЦУКЕHГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ;`qwertyuiop[]asdfghjkl\\;'zxcvbnm\\,.QWERTYUIOP{}ASDFGHJKL:\\"ZXCVBNM<>
 
-colorscheme falcon " xoria256
+let g:onedark_config = { 'style': 'deep'}
+colorscheme onedark " iceberg  sonokai  falcon xoria256
 
 call plug#begin()
 Plug 'kyazdani42/nvim-web-devicons'
@@ -11,9 +12,14 @@ Plug 'nvim-lualine/lualine.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'neovim/nvim-lspconfig'
-Plug 'glepnir/lspsaga.nvim', { 'branch': 'main' }
 Plug 'phaazon/hop.nvim'
+Plug 'neovim/nvim-lspconfig'
+Plug 'navarasu/onedark.nvim'
+Plug 'folke/trouble.nvim', {'branch': 'main'}
+Plug 'lukas-reineke/indent-blankline.nvim'
+Plug 'voldikss/vim-floaterm'
+"Plug 'lervag/vimtex'
+"Plug 'fatih/vim-go'
 call plug#end()
 
 set autowrite
@@ -49,6 +55,9 @@ inoremap <C-c> <Esc>
 inoremap kj <ESC>
 inoremap jj <ESC>
 
+" ominfunc
+inoremap <C-Space> <C-x><C-o>
+
 nnoremap ; :|xnoremap ; :
 
 set scrolloff=2
@@ -72,61 +81,106 @@ nnoremap <leader>N :set number!<cr>
 nnoremap <leader>P :set paste! paste?<cr>
 
 " hop plugin
-nnoremap <Leader>W :HopWord<Cr>
+nnoremap <Leader>h :HopWord<Cr>
 
-" vim-go
-let g:go_def_mode='gopls'
-let g:go_info_mode='gopls'
-let g:go_fmt_command = "goimports"
-let g:go_fmt_fail_silently = 1
-autocmd FileType go nmap <leader>b  <Plug>(go-build)
-autocmd FileType go nmap <leader>r  <Plug>(go-run)
-autocmd FileType go nmap <leader>l  <Plug>(go-lint)
-autocmd FileType go nmap <leader>i  <Plug>(go-info)
+" floaterm
+nnoremap <leader>t :FloatermToggle<CR>
+tnoremap <leader>t <C-\><C-n>:FloatermToggle<CR>
+
 autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
 
 set completeopt=menu,menuone,noselect
 
-lua <<END
-require('nvim-web-devicons').setup{}
-require('lualine').setup{}
-vim.opt.termguicolors = true
-
-require('lspsaga').init_lsp_saga{}
-
-require('nvim-treesitter.configs').setup {
-    highlight = {
-        enable = true,
-        disable = {},
-    }
-}
-END
-
 nnoremap <silent> <C-n> :bnext<CR>
 nnoremap <silent> <C-p> :bprev<CR>
+nnoremap <silent> <Leader>d :bdel<CR>
 
 nnoremap <leader>p <cmd>Telescope find_files<cr>
 nnoremap <leader>g <cmd>Telescope live_grep<cr>
-nnoremap <leader>t <cmd>Telescope help_tags<cr>
-nnoremap <leader>u <cmd>Telescope buffers<cr>
+nnoremap <leader>T <cmd>Telescope help_tags<cr>
+nnoremap <leader>b <cmd>Telescope buffers<cr>
 
-" lspsaga
-nnoremap <silent>gh :Lspsaga lsp_finder<CR>
-nnoremap <silent>K :Lspsaga hover_doc<CR>
-nnoremap <silent>gs :Lspsaga signature_help<CR>
-nnoremap <silent> [e :Lspsaga diagnostic_jump_next<CR>
-nnoremap <silent> ]e :Lspsaga diagnostic_jump_prev<CR>
-
-" completion-nvim
-" Use <Tab> and <S-Tab> to navigate through popup menu
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" Trouble
+nnoremap <leader>xx <cmd>TroubleToggle<cr>
+nnoremap <leader>xw <cmd>TroubleToggle workspace_diagnostics<cr>
+nnoremap <leader>xd <cmd>TroubleToggle document_diagnostics<cr>
+nnoremap <leader>xq <cmd>TroubleToggle quickfix<cr>
+nnoremap <leader>xl <cmd>TroubleToggle loclist<cr>
+nnoremap gR <cmd>TroubleToggle lsp_references<cr>
 
 " set listcar but not list (set list manually)
 set listchars=tab:▸\ ,eol:¬
 
-nnoremap j gj
-nnoremap k gk
+nnoremap <silent> j gj
+nnoremap <silent> k gk
+
+lua <<END
+
+vim.o.mouse = 'a'
+vim.o.updatetime = 250
+vim.wo.signcolumn = 'yes'
+vim.g.indent_blankline_char = '┊'
+
+require('nvim-web-devicons').setup{}
+require('lualine').setup{}
+vim.opt.termguicolors = true
+
+require('nvim-treesitter.configs').setup {
+    highlight = { enable = true, disable = {}, }
+}
+
+-- init hop
+require'hop'.setup()
+
+-- Mappings.
+-- See `:help vim.diagnostic.*` for documentation on any of the below functions
+local opts = { noremap=true, silent=true }
+vim.api.nvim_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
+vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+vim.api.nvim_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
+
+local on_attach = function(client, bufnr)
+  -- Enable completion triggered by <c-x><c-o>
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gs', '<cmd>lua vim.lsp.buf.document_symbol()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gS', '<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '[g', '<cmd>lua vim.lsp.diagnostic.get_prev()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', ']g', '<cmd>lua vim.lsp.diagnostic.get_next()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+end
+
+-- Use a loop to conveniently call 'setup' on multiple servers and
+-- map buffer local keybindings when the language server attaches
+local servers = { 'pylsp', 'rust_analyzer', 'gopls' }
+for _, lsp in pairs(servers) do
+  require('lspconfig')[lsp].setup {
+    on_attach = on_attach,
+  }
+end
+
+--    local border_size = {none = {0, 0}, single = {2, 2}, double = {2, 2}, rounded = {2, 2}, solid = {2, 2}, shadow = {1, 1}}
+vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = 'rounded', })
+vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'rounded', })
+
+require("trouble").setup{}
+
+require("indent_blankline").setup{char = '┊', show_trailing_blankline_indent = false,}
+
+END
 
 set viminfo='10,\"100,:20,%
 
