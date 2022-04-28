@@ -108,6 +108,20 @@ nnoremap <leader>xq <cmd>TroubleToggle quickfix<cr>
 nnoremap <leader>xl <cmd>TroubleToggle loclist<cr>
 nnoremap gR <cmd>TroubleToggle lsp_references<cr>
 
+
+" buffers
+nnoremap <leader>1 <cmd>1b<cr>
+nnoremap <leader>2 <cmd>2b<cr>
+nnoremap <leader>3 <cmd>3b<cr>
+nnoremap <leader>4 <cmd>4b<cr>
+nnoremap <leader>5 <cmd>5b<cr>
+nnoremap <leader>6 <cmd>6b<cr>
+nnoremap <leader>7 <cmd>7b<cr>
+nnoremap <leader>8 <cmd>8b<cr>
+nnoremap <leader>9 <cmd>9b<cr>
+nnoremap <leader><leader> <cmd>e#<cr>
+
+
 " set listcar but not list (set list manually)
 set listchars=tab:▸\ ,eol:¬
 
@@ -122,7 +136,11 @@ vim.wo.signcolumn = 'yes'
 vim.g.indent_blankline_char = '┊'
 
 require('nvim-web-devicons').setup{}
-require('lualine').setup{}
+require('lualine').setup{ 
+    tabline = { 
+        lualine_a={ {'buffers', mode=2, buffers_color = { active = 'lualine_a_normal', inactive = 'lualine_a_tabs_inactive' } } }
+    },
+}
 vim.opt.termguicolors = true
 
 require('nvim-treesitter.configs').setup {
